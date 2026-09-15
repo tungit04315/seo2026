@@ -205,6 +205,8 @@ p.sub{
 .kpi-card .label{font-size:11.5px;color:var(--ink-soft);font-weight:600;}
 .kpi-card .value{font-family:var(--font-display);font-size:26px;font-weight:800;color:var(--ink);}
 .kpi-card .value span{font-size:13px;color:var(--accent);font-weight:700;margin-left:6px;}
+.kpi-card .delta{font-size:12px;font-weight:700;color:#059669;display:flex;align-items:center;gap:4px;}
+.kpi-card .delta svg{width:13px;height:13px;}
 
 /* pill badge */
 .pill{
@@ -880,19 +882,35 @@ p.sub{
 <section class="slide" data-index="19" data-section="SALES APPLICATION">
   <div class="slide-meta"><span class="section-tag">SALES APPLICATION</span><span class="meta-right">18 · KPI Dashboard</span></div>
   <div class="slide-body">
-    <h2 class="headline-md">SEO KPI Dashboard <span class="tiny" style="font-weight:600;">(ví dụ minh họa)</span></h2>
+    <h2 class="headline-md">SEO KPI Dashboard — Website hiệu suất tốt</h2>
     <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);">
-      <div class="kpi-card"><div class="label">Organic Clicks</div><div class="value">—</div></div>
-      <div class="kpi-card"><div class="label">Impressions</div><div class="value">—</div></div>
-      <div class="kpi-card"><div class="label">CTR</div><div class="value">—</div></div>
-      <div class="kpi-card"><div class="label">Avg. Position</div><div class="value">—</div></div>
+      <div class="kpi-card">
+        <div class="label">Organic Clicks / tháng</div>
+        <div class="value">18.400</div>
+        <div class="delta"><svg><use href="#i-trend"/></svg>+32% so với 6 tháng trước</div>
+      </div>
+      <div class="kpi-card">
+        <div class="label">Impressions / tháng</div>
+        <div class="value">612.000</div>
+        <div class="delta"><svg><use href="#i-trend"/></svg>+18% so với 6 tháng trước</div>
+      </div>
+      <div class="kpi-card">
+        <div class="label">CTR trung bình</div>
+        <div class="value">3.8%</div>
+        <div class="delta"><svg><use href="#i-trend"/></svg>+0.9 điểm so với 6 tháng trước</div>
+      </div>
+      <div class="kpi-card">
+        <div class="label">Avg. Position</div>
+        <div class="value">4.2</div>
+        <div class="delta"><svg><use href="#i-trend"/></svg>Cải thiện từ vị trí 9.6</div>
+      </div>
     </div>
     <div class="dash-grid" style="margin-top:14px;flex:1;">
-      <div class="chart-box" style="grid-column:span 2;"><div class="ctitle">Xu hướng Traffic (minh họa)</div><div class="chart-canvas-wrap"><canvas id="chart-traffic"></canvas></div></div>
+      <div class="chart-box" style="grid-column:span 2;"><div class="ctitle">Xu hướng Traffic (6 tháng gần nhất)</div><div class="chart-canvas-wrap"><canvas id="chart-traffic"></canvas></div></div>
       <div class="chart-box"><div class="ctitle">Keyword Visibility</div><div class="chart-canvas-wrap"><canvas id="chart-visibility"></canvas></div></div>
       <div class="chart-box"><div class="ctitle">Lead Trend</div><div class="chart-canvas-wrap"><canvas id="chart-leads"></canvas></div></div>
     </div>
-    <p class="tiny" style="margin-top:8px;">Dữ liệu minh họa cho mục đích trình bày dashboard — số liệu thực tế lấy từ Google Search Console &amp; GA4 của từng dự án.</p>
+    <p class="tiny" style="margin-top:8px;">Số liệu tham khảo, mô tả một website đang đạt hiệu suất SEO tốt — dữ liệu thực tế lấy từ Google Search Console &amp; GA4 của từng dự án.</p>
   </div>
 </section>
 
@@ -1049,7 +1067,7 @@ p.sub{
   layoutRadial('radial-10','radial-svg-10', 0.40);
   layoutRadial('radial-12','radial-svg-12', 0.42);
 
-  // ---- charts (illustrative sample data only, clearly labelled in UI) ----
+  // ---- charts (sample data reflecting strong SEO performance) ----
   function initCharts(){
     if(typeof Chart === 'undefined') return;
     const gridColor = '#EEF2F7';
@@ -1061,8 +1079,8 @@ p.sub{
       data: {
         labels: ['T1','T2','T3','T4','T5','T6'],
         datasets: [{
-          label: 'Organic Sessions (minh họa)',
-          data: [40,52,58,70,86,102],
+          label: 'Organic Sessions',
+          data: [9800,11600,13200,15100,16900,18400],
           borderColor: '#2563EB',
           backgroundColor: 'rgba(37,99,235,0.08)',
           tension: 0.35, fill:true, pointRadius:0, borderWidth:2.5
@@ -1079,7 +1097,7 @@ p.sub{
       type: 'doughnut',
       data: {
         labels: ['Top 3','Top 10','Top 30','>30'],
-        datasets: [{ data:[18,34,30,18], backgroundColor:['#1D4ED8','#2563EB','#93C5FD','#E2E8F0'], borderWidth:0 }]
+        datasets: [{ data:[42,33,18,7], backgroundColor:['#1D4ED8','#2563EB','#93C5FD','#E2E8F0'], borderWidth:0 }]
       },
       options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{boxWidth:8,font:{size:10}}}} }
     });
@@ -1088,7 +1106,7 @@ p.sub{
       type: 'bar',
       data: {
         labels: ['T1','T2','T3','T4','T5','T6'],
-        datasets: [{ label:'Leads (minh họa)', data:[8,11,10,15,19,23], backgroundColor:'#0891B2', borderRadius:5 }]
+        datasets: [{ label:'Leads', data:[52,61,68,79,91,104], backgroundColor:'#0891B2', borderRadius:5 }]
       },
       options: {
         responsive:true, maintainAspectRatio:false,

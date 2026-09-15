@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js" onerror="window.__chartLoadFailed=true"></script>
 <style>
 :root{
   --bg:#FFFFFF;
@@ -1068,55 +1068,147 @@ p.sub{
   layoutRadial('radial-12','radial-svg-12', 0.42);
 
   // ---- charts (sample data reflecting strong SEO performance) ----
-  function initCharts(){
-    if(typeof Chart === 'undefined') return;
+  const trafficData = [9800,11600,13200,15100,16900,18400];
+  const visibilityData = [42,33,18,7];
+  const visibilityColors = ['#1D4ED8','#2563EB','#93C5FD','#E2E8F0'];
+  const leadsData = [52,61,68,79,91,104];
+  const monthLabels = ['T1','T2','T3','T4','T5','T6'];
+
+  function sizeCanvas(canvas){
+    const wrap = canvas.parentElement;
+    const rect = wrap.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    const w = Math.max(rect.width, 200);
+    const h = Math.max(rect.height, 140);
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w+'px';
+    canvas.style.height = h+'px';
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    return {ctx, w, h};
+  }
+
+  function drawLineFallback(id, labels, data, color){
+    const canvas = document.getElementById(id);
+    if(!canvas) return;
+    const {ctx,w,h} = sizeCanvas(canvas);
+    const pad = 24;
+    const max = Math.max(...data)*1.1, min = 0;
+    ctx.clearRect(0,0,w,h);
+    ctx.strokeStyle = '#EEF2F7'; ctx.lineWidth = 1;
+    for(let i=0;i<=4;i++){
+      const y = pad + (h-pad*2)*i/4;
+      ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(w-pad,y); ctx.stroke();
+    }
+    ctx.beginPath();
+    data.forEach((v,i)=>{
+      const x = pad + (w-pad*2)*i/(data.length-1);
+      const y = h-pad - (h-pad*2)*((v-min)/(max-min));
+      i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    });
+    ctx.strokeStyle = color; ctx.lineWidth = 2.5; ctx.stroke();
+    ctx.fillStyle = '#64748B'; ctx.font = '10px Inter, sans-serif'; ctx.textAlign='center';
+    labels.forEach((l,i)=>{
+      const x = pad + (w-pad*2)*i/(data.length-1);
+      ctx.fillText(l, x, h-6);
+    });
+  }
+
+  function drawBarFallback(id, labels, data, color){
+    const canvas = document.getElementById(id);
+    if(!canvas) return;
+    const {ctx,w,h} = sizeCanvas(canvas);
+    const pad = 24;
+    const max = Math.max(...data)*1.15;
+    ctx.clearRect(0,0,w,h);
+    const bw = (w-pad*2)/data.length*0.55;
+    data.forEach((v,i)=>{
+      const slot = (w-pad*2)/data.length;
+      const x = pad + slot*i + (slot-bw)/2;
+      const barH = (h-pad*2)*(v/max);
+      const y = h-pad-barH;
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.roundRect ? ctx.roundRect(x,y,bw,barH,4) : ctx.rect(x,y,bw,barH);
+      ctx.fill();
+      ctx.fillStyle = '#64748B'; ctx.font='10px Inter, sans-serif'; ctx.textAlign='center';
+      ctx.fillText(labels[i], x+bw/2, h-6);
+    });
+  }
+
+  function drawDoughnutFallback(id, labels, data, colors){
+    const canvas = document.getElementById(id);
+    if(!canvas) return;
+    const {ctx,w,h} = sizeCanvas(canvas);
+    ctx.clearRect(0,0,w,h);
+    const cx = w/2, cy = (h-24)/2, r = Math.min(cx,cy)*0.85, inner = r*0.6;
+    const total = data.reduce((a,b)=>a+b,0);
+    let start = -Math.PI/2;
+    data.forEach((v,i)=>{
+      const angle = (v/total)*Math.PI*2;
+      ctx.beginPath();
+      ctx.arc(cx,cy,r,start,start+angle);
+      ctx.arc(cx,cy,inner,start+angle,start,true);
+      ctx.closePath();
+      ctx.fillStyle = colors[i];
+      ctx.fill();
+      start += angle;
+    });
+    ctx.font='9px Inter, sans-serif'; ctx.textAlign='center';
+    labels.forEach((l,i)=>{
+      ctx.fillStyle = colors[i];
+      ctx.fillText('● '+l, cx - (labels.length-1)*28 + i*56, h-8);
+    });
+  }
+
+  function drawFallbackCharts(){
+    drawLineFallback('chart-traffic', monthLabels, trafficData, '#2563EB');
+    drawDoughnutFallback('chart-visibility', ['Top 3','Top 10','Top 30','>30'], visibilityData, visibilityColors);
+    drawBarFallback('chart-leads', monthLabels, leadsData, '#0891B2');
+  }
+
+  function initCharts(attempt){
+    attempt = attempt || 0;
+    if(typeof Chart === 'undefined'){
+      if(window.__chartLoadFailed || attempt >= 6){ drawFallbackCharts(); return; }
+      setTimeout(()=>initCharts(attempt+1), 300); // đợi CDN load, retry vài lần
+      return;
+    }
     const gridColor = '#EEF2F7';
     Chart.defaults.font.family = "'Inter', sans-serif";
     Chart.defaults.color = '#64748B';
 
     new Chart(document.getElementById('chart-traffic'), {
       type: 'line',
-      data: {
-        labels: ['T1','T2','T3','T4','T5','T6'],
-        datasets: [{
-          label: 'Organic Sessions',
-          data: [9800,11600,13200,15100,16900,18400],
-          borderColor: '#2563EB',
-          backgroundColor: 'rgba(37,99,235,0.08)',
-          tension: 0.35, fill:true, pointRadius:0, borderWidth:2.5
-        }]
-      },
-      options: {
-        responsive:true, maintainAspectRatio:false,
+      data: { labels: monthLabels, datasets: [{
+        label: 'Organic Sessions', data: trafficData,
+        borderColor: '#2563EB', backgroundColor: 'rgba(37,99,235,0.08)',
+        tension: 0.35, fill:true, pointRadius:0, borderWidth:2.5
+      }]},
+      options: { responsive:true, maintainAspectRatio:false,
         plugins:{legend:{display:false}},
-        scales:{ x:{grid:{display:false}}, y:{grid:{color:gridColor},beginAtZero:true} }
-      }
+        scales:{ x:{grid:{display:false}}, y:{grid:{color:gridColor},beginAtZero:true} } }
     });
 
     new Chart(document.getElementById('chart-visibility'), {
       type: 'doughnut',
-      data: {
-        labels: ['Top 3','Top 10','Top 30','>30'],
-        datasets: [{ data:[42,33,18,7], backgroundColor:['#1D4ED8','#2563EB','#93C5FD','#E2E8F0'], borderWidth:0 }]
-      },
+      data: { labels: ['Top 3','Top 10','Top 30','>30'],
+        datasets: [{ data: visibilityData, backgroundColor: visibilityColors, borderWidth:0 }]},
       options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{boxWidth:8,font:{size:10}}}} }
     });
 
     new Chart(document.getElementById('chart-leads'), {
       type: 'bar',
-      data: {
-        labels: ['T1','T2','T3','T4','T5','T6'],
-        datasets: [{ label:'Leads', data:[52,61,68,79,91,104], backgroundColor:'#0891B2', borderRadius:5 }]
-      },
-      options: {
-        responsive:true, maintainAspectRatio:false,
+      data: { labels: monthLabels, datasets: [{ label:'Leads', data: leadsData, backgroundColor:'#0891B2', borderRadius:5 }]},
+      options: { responsive:true, maintainAspectRatio:false,
         plugins:{legend:{display:false}},
-        scales:{ x:{grid:{display:false}}, y:{grid:{color:gridColor},beginAtZero:true} }
-      }
+        scales:{ x:{grid:{display:false}}, y:{grid:{color:gridColor},beginAtZero:true} } }
     });
   }
 
-  window.addEventListener('load', initCharts);
+  window.addEventListener('load', ()=>initCharts());
+  window.addEventListener('resize', ()=>{ if(typeof Chart==='undefined') drawFallbackCharts(); });
   render();
 })();
 </script>

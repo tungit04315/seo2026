@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEO 2026 — Sales SEO Playbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#FFFFFF;
+  --bg-alt:#F8FAFC;
+  --bg-alt2:#F1F5F9;
+  --ink:#0F172A;
+  --ink-soft:#475569;
+  --ink-faint:#94A3B8;
+  --line:#E2E8F0;
+  --line-soft:#EEF2F7;
+  --primary:#1D4ED8;
+  --primary-deep:#1E3A8A;
+  --electric:#2563EB;
+  --accent:#0891B2;
+  --accent-soft:#CFFAFE;
+  --primary-soft:#DBEAFE;
+  --radius-sm:12px;
+  --radius:16px;
+  --radius-lg:20px;
+  --shadow-sm:0 1px 2px rgba(15,23,42,.04), 0 1px 1px rgba(15,23,42,.03);
+  --shadow:0 8px 24px -8px rgba(15,23,42,.10);
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --font-display:'Be Vietnam Pro', 'Inter', sans-serif;
+  --font-body:'Inter', sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0;
+  background:#0B1220;
+  font-family:var(--font-body);
+  color:var(--ink);
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+button{font-family:inherit;}
+::selection{background:var(--primary-soft);color:var(--primary-deep);}
+
+#app{
+  position:fixed;inset:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  background:
+    radial-gradient(1200px 600px at 15% -10%, #16223d 0%, transparent 60%),
+    radial-gradient(1000px 700px at 110% 110%, #0e1a30 0%, transparent 55%),
+    #0B1220;
+  padding:28px;
+  gap:14px;
+}
+
+#stage-wrap{
+  position:relative;
+  width:100%;
+  max-width:1440px;
+  aspect-ratio:16/9;
+  max-height:calc(100vh - 90px);
+}
+
+.stage{
+  position:absolute;inset:0;
+  background:var(--bg);
+  border-radius:22px;
+  box-shadow:0 30px 80px -20px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.04);
+  overflow:hidden;
+}
+
+#slides{position:absolute;inset:0;}
+
+.slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  padding:56px 72px 44px;
+  opacity:0;
+  visibility:hidden;
+  transform:translateX(24px);
+  transition:opacity .5s var(--ease), transform .5s var(--ease), visibility 0s .5s;
+  background:var(--bg);
+}
+.slide.active{
+  opacity:1;visibility:visible;transform:translateX(0);
+  transition:opacity .5s var(--ease), transform .5s var(--ease), visibility 0s 0s;
+  z-index:2;
+}
+.slide.leaving-back{transform:translateX(-24px);}
+
+.slide-meta{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:22px;
+  flex:0 0 auto;
+}
+.section-tag{
+  font-size:11.5px;letter-spacing:.14em;font-weight:700;color:var(--electric);
+  background:var(--primary-soft);padding:5px 12px;border-radius:100px;
+}
+.meta-right{font-size:11.5px;color:var(--ink-faint);font-weight:600;letter-spacing:.04em;}
+
+.slide-body{flex:1 1 auto;display:flex;flex-direction:column;min-height:0;}
+
+.eyebrow{
+  font-size:13px;font-weight:600;color:var(--accent);margin:0 0 10px;letter-spacing:.01em;
+}
+h1.headline{
+  font-family:var(--font-display);
+  font-weight:800;
+  font-size:clamp(30px,4vw,52px);
+  line-height:1.08;
+  margin:0 0 14px;
+  color:var(--ink);
+  letter-spacing:-.01em;
+}
+h2.headline-md{
+  font-family:var(--font-display);
+  font-weight:800;
+  font-size:clamp(24px,2.6vw,34px);
+  line-height:1.15;
+  margin:0 0 12px;
+  color:var(--ink);
+}
+p.sub{
+  font-size:16px;line-height:1.6;color:var(--ink-soft);max-width:640px;margin:0 0 4px;
+}
+.tiny{font-size:12px;color:var(--ink-faint);}
+.source{
+  position:absolute;left:72px;bottom:20px;font-size:11px;color:var(--ink-faint);font-weight:500;
+}
+.blue{color:var(--electric);}
+
+/* Nav controls */
+.navbtn{
+  width:46px;height:46px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.06);
+  color:#E2E8F0;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  backdrop-filter:blur(6px);
+  transition:background .2s, transform .15s;
+}
+.navbtn:hover{background:rgba(255,255,255,.14);}
+.navbtn:active{transform:scale(.94);}
+.navbtn svg{width:18px;height:18px;}
+.navbtn.disabled{opacity:.25;pointer-events:none;}
+
+#controls-row{
+  width:100%;max-width:1440px;
+  display:flex;align-items:center;gap:16px;
+}
+#progress-track{
+  flex:1;height:3px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden;
+}
+#progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--electric),var(--accent));transition:width .4s var(--ease);}
+#counter{
+  font-variant-numeric:tabular-nums;
+  font-size:13px;color:#CBD5E1;font-weight:600;letter-spacing:.03em;white-space:nowrap;
+}
+
+/* ---------- shared components ---------- */
+.icon{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+
+.grid12{display:grid;grid-template-columns:repeat(12,1fr);gap:20px;flex:1;min-height:0;}
+
+/* flow chain */
+.flow-chain{display:flex;align-items:stretch;gap:0;flex:1;}
+.flow-chain.vertical{flex-direction:column;}
+.flow-step{
+  flex:1;background:var(--bg-alt);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px 20px;display:flex;flex-direction:column;gap:6px;justify-content:center;
+  opacity:0;transform:translateY(10px);
+  transition:opacity .5s var(--ease), transform .5s var(--ease);
+}
+.slide.active .flow-step{opacity:1;transform:translateY(0);}
+.flow-step .num{font-size:11px;font-weight:800;color:var(--electric);letter-spacing:.06em;}
+.flow-step .title{font-family:var(--font-display);font-weight:700;font-size:16px;color:var(--ink);}
+.flow-step .desc{font-size:12.5px;color:var(--ink-soft);line-height:1.45;}
+.flow-arrow{display:flex;align-items:center;justify-content:center;width:34px;color:var(--ink-faint);flex:0 0 auto;}
+.flow-chain.vertical .flow-arrow{width:auto;height:22px;transform:rotate(90deg);}
+
+/* stagger delay helper via nth-child */
+.flow-step:nth-child(1){transition-delay:.05s;}
+.flow-step:nth-child(3){transition-delay:.15s;}
+.flow-step:nth-child(5){transition-delay:.25s;}
+.flow-step:nth-child(7){transition-delay:.35s;}
+.flow-step:nth-child(9){transition-delay:.45s;}
+.flow-step:nth-child(11){transition-delay:.55s;}
+.flow-step:nth-child(13){transition-delay:.65s;}
+
+/* KPI card */
+.kpi-grid{display:grid;gap:14px;}
+.kpi-card{
+  background:var(--bg-alt);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 18px;display:flex;flex-direction:column;gap:6px;
+  opacity:0;transform:translateY(10px);transition:opacity .45s var(--ease), transform .45s var(--ease);
+}
+.slide.active .kpi-card{opacity:1;transform:translateY(0);}
+.kpi-card .label{font-size:11.5px;color:var(--ink-soft);font-weight:600;}
+.kpi-card .value{font-family:var(--font-display);font-size:26px;font-weight:800;color:var(--ink);}
+.kpi-card .value span{font-size:13px;color:var(--accent);font-weight:700;margin-left:6px;}
+
+/* pill badge */
+.pill{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 12px;border-radius:100px;font-size:12.5px;font-weight:600;
+  background:var(--bg-alt2);color:var(--ink-soft);border:1px solid var(--line);
+}
+.pill.blue{background:var(--primary-soft);color:var(--primary-deep);border-color:transparent;}
+.pill.cyan{background:var(--accent-soft);color:#0E7490;border-color:transparent;}
+
+/* radial diagram */
+.radial{
+  position:relative;flex:1;display:flex;align-items:center;justify-content:center;
+}
+.radial-center{
+  width:150px;height:150px;border-radius:50%;
+  background:linear-gradient(155deg,var(--primary-deep),var(--electric));
+  color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;
+  font-family:var(--font-display);font-weight:800;font-size:15px;line-height:1.25;
+  box-shadow:0 18px 40px -12px rgba(29,78,216,.45);
+  z-index:2;padding:10px;
+  opacity:0;transform:scale(.7);transition:opacity .5s var(--ease), transform .5s var(--ease);
+}
+.slide.active .radial-center{opacity:1;transform:scale(1);}
+.radial-node{
+  position:absolute;
+  background:var(--bg);border:1px solid var(--line);border-radius:14px;
+  padding:9px 14px;font-size:12.5px;font-weight:700;color:var(--ink);
+  box-shadow:var(--shadow-sm);
+  display:flex;align-items:center;gap:7px;
+  opacity:0;transform:scale(.6);transition:opacity .4s var(--ease), transform .4s var(--ease);
+}
+.slide.active .radial-node{opacity:1;transform:scale(1);}
+.radial-node svg{width:15px;height:15px;color:var(--electric);flex:0 0 auto;}
+.radial-svg{position:absolute;inset:0;width:100%;height:100%;z-index:0;}
+.radial-svg line{stroke:var(--line);stroke-width:1.5;}
+
+/* quadrant */
+.quad-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:14px;flex:1;}
+.quad-card{
+  border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;
+  background:var(--bg-alt);display:flex;flex-direction:column;gap:8px;
+  opacity:0;transform:translateY(10px);transition:opacity .5s var(--ease), transform .5s var(--ease);
+}
+.slide.active .quad-card{opacity:1;transform:translateY(0);}
+.quad-card .qhead{display:flex;align-items:center;gap:9px;}
+.quad-card .qhead svg{width:19px;height:19px;color:var(--electric);}
+.quad-card .qtitle{font-family:var(--font-display);font-weight:700;font-size:15.5px;}
+.quad-card ul{margin:0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:5px;}
+.quad-card li{font-size:12.5px;color:var(--ink-soft);padding-left:14px;position:relative;}
+.quad-card li::before{content:'';position:absolute;left:0;top:7px;width:4px;height:4px;border-radius:50%;background:var(--electric);}
+
+/* funnel */
+.funnel-wrap{display:flex;gap:36px;flex:1;align-items:center;}
+.funnel{display:flex;flex-direction:column;align-items:center;gap:4px;flex:0 0 auto;}
+.funnel-seg{
+  height:44px;display:flex;align-items:center;justify-content:center;color:#fff;
+  font-family:var(--font-display);font-weight:700;font-size:13px;letter-spacing:.02em;
+  clip-path:polygon(6% 0,94% 0,84% 100%,16% 100%);
+  opacity:0;transform:translateY(-8px);transition:opacity .45s var(--ease), transform .45s var(--ease);
+}
+.slide.active .funnel-seg{opacity:1;transform:translateY(0);}
+.funnel-list{flex:1;display:flex;flex-direction:column;gap:10px;}
+.funnel-row{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line-soft);padding-bottom:10px;}
+.funnel-row .k{font-size:13px;font-weight:700;color:var(--ink);}
+.funnel-row .v{font-size:12px;color:var(--ink-soft);text-align:right;}
+
+/* staircase */
+.stair{display:flex;align-items:flex-end;gap:10px;flex:1;}
+.stair-step{
+  flex:1;background:linear-gradient(180deg,var(--bg-alt),var(--bg-alt2));
+  border:1px solid var(--line);border-top:3px solid var(--electric);
+  border-radius:10px 10px 6px 6px;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+  padding:12px 8px 14px;text-align:center;gap:4px;
+  opacity:0;transform:translateY(16px);transition:opacity .45s var(--ease), transform .45s var(--ease);
+}
+.slide.active .stair-step{opacity:1;transform:translateY(0);}
+.stair-step .snum{font-size:10px;font-weight:800;color:var(--electric);}
+.stair-step .stitle{font-size:12.5px;font-weight:700;color:var(--ink);}
+
+/* mockup browser chrome */
+.browser{
+  border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;box-shadow:var(--shadow-sm);
+}
+.browser-bar{
+  height:30px;background:var(--bg-alt2);display:flex;align-items:center;gap:6px;padding:0 12px;border-bottom:1px solid var(--line);
+}
+.browser-bar .dot{width:8px;height:8px;border-radius:50%;background:#CBD5E1;}
+.browser-bar .url{
+  flex:1;margin-left:8px;background:#fff;border:1px solid var(--line);border-radius:6px;
+  font-size:10.5px;color:var(--ink-faint);padding:3px 10px;
+}
+
+/* serp mockup */
+.serp{padding:16px 18px;}
+.serp .fav{width:16px;height:16px;border-radius:3px;background:var(--electric);display:inline-block;margin-right:6px;}
+.serp .surl{font-size:12px;color:#1a7a4c;display:flex;align-items:center;}
+.serp .stitle{color:#1a0dab;font-size:17px;margin:2px 0;font-weight:500;}
+.serp .sdesc{font-size:13px;color:#4d5156;line-height:1.5;}
+.tag-highlight{
+  display:inline-block;padding:1px 6px;border-radius:4px;background:var(--accent-soft);color:#0E7490;font-weight:700;font-size:10.5px;margin-left:6px;
+}
+
+/* checklist */
+.checklist{display:grid;grid-template-columns:1fr 1fr;gap:12px 28px;flex:1;align-content:center;}
+.check-item{display:flex;align-items:flex-start;gap:12px;}
+.check-num{
+  width:26px;height:26px;border-radius:8px;background:var(--primary-soft);color:var(--primary-deep);
+  font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:0 0 auto;
+}
+.check-item p{margin:2px 0 0;font-size:14px;color:var(--ink);font-weight:500;}
+
+/* before/after table */
+.ba-row{
+  display:grid;grid-template-columns:1fr 34px 1fr;gap:14px;align-items:center;
+  padding:14px 0;border-bottom:1px solid var(--line-soft);
+}
+.ba-col{border-radius:12px;padding:12px 16px;font-size:13px;line-height:1.5;}
+.ba-before{background:var(--bg-alt2);color:var(--ink-soft);}
+.ba-after{background:var(--primary-soft);color:var(--primary-deep);font-weight:500;}
+.ba-arrow{display:flex;justify-content:center;color:var(--electric);}
+.ba-label{font-size:10px;font-weight:800;letter-spacing:.08em;color:var(--ink-faint);margin-bottom:4px;display:block;}
+
+/* dashboard */
+.dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px;}
+.chart-box{
+  background:var(--bg-alt);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;
+  display:flex;flex-direction:column;
+}
+.chart-box .ctitle{font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;}
+.chart-canvas-wrap{flex:1;position:relative;min-height:0;}
+
+/* roadmap */
+.roadmap{display:flex;gap:14px;flex:1;align-items:center;position:relative;}
+.rm-line{position:absolute;left:5%;right:5%;top:26px;height:2px;background:var(--line);z-index:0;}
+.rm-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:10px;position:relative;z-index:1;text-align:center;}
+.rm-dot{
+  width:52px;height:52px;border-radius:50%;background:#fff;border:2px solid var(--electric);color:var(--electric);
+  display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;font-size:14px;
+  opacity:0;transform:scale(.6);transition:opacity .4s var(--ease), transform .4s var(--ease);
+}
+.slide.active .rm-dot{opacity:1;transform:scale(1);}
+.rm-item .rmtitle{font-size:12.5px;font-weight:700;color:var(--ink);}
+
+/* tool stack */
+.tool-cat{margin-bottom:16px;}
+.tool-cat-title{font-size:11.5px;font-weight:800;letter-spacing:.08em;color:var(--ink-faint);margin-bottom:8px;}
+.tool-row{display:flex;flex-wrap:wrap;gap:8px;}
+.tool-chip{
+  background:var(--bg-alt);border:1px solid var(--line);border-radius:10px;padding:8px 12px;
+  font-size:12.5px;font-weight:600;color:var(--ink);display:flex;flex-direction:column;gap:2px;min-width:130px;
+}
+.tool-chip small{font-weight:500;color:var(--ink-faint);font-size:10.5px;}
+
+/* section divider style (used sparingly not as own slide, reserved) */
+
+/* final slide */
+.final-words{display:flex;gap:14px;flex-wrap:wrap;margin-top:26px;}
+.final-word{
+  font-family:var(--font-display);font-weight:800;font-size:15px;color:var(--primary-deep);
+  background:var(--primary-soft);padding:12px 20px;border-radius:12px;
+  opacity:0;transform:translateY(10px);transition:opacity .45s var(--ease), transform .45s var(--ease);
+}
+.slide.active .final-word{opacity:1;transform:translateY(0);}
+
+/* cover */
+.cover-hero{flex:1;display:flex;flex-direction:column;justify-content:center;position:relative;}
+.cover-title{font-family:var(--font-display);font-weight:900;font-size:clamp(46px,7vw,84px);line-height:.98;letter-spacing:-.02em;margin:0;}
+.cover-title .lg{display:block;background:linear-gradient(100deg,var(--primary-deep),var(--electric) 60%,var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.cover-sub{font-size:15px;color:var(--ink-soft);margin-top:18px;max-width:520px;}
+.cover-ring{position:absolute;right:0;top:50%;transform:translateY(-50%);}
+
+/* responsive */
+@media (max-width:900px){
+  .slide{padding:34px 22px 30px;}
+  .grid12,.quad-grid,.dash-grid,.checklist{grid-template-columns:1fr !important;}
+  .flow-chain{flex-direction:column;}
+  .flow-arrow{transform:rotate(90deg);width:auto;height:20px;}
+  #stage-wrap{max-height:none;aspect-ratio:auto;height:calc(100vh - 90px);}
+  .cover-ring{display:none;}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition-duration:.01ms !important;animation-duration:.01ms !important;}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+<defs>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+<symbol id="i-ai" viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 6 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-6-3.8-9S9.5 5.7 12 3z"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h8l5 5v13H6z"/><path d="M14 3v5h5M9 12h6M9 16h6"/></symbol>
+<symbol id="i-brand" viewBox="0 0 24 24"><path d="M4 21V9l8-6 8 6v12"/><path d="M9 21v-6h6v6"/></symbol>
+<symbol id="i-data" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="i-chevleft" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+<symbol id="i-chevright" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+<symbol id="i-map" viewBox="0 0 24 24"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l3 7 7 .6-5.4 4.6 1.7 7L12 17.8 5.7 21.2l1.7-7L2 9.6 9 9z"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.4 8.4-8 9-4.6-.6-8-4-8-9V6z"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/><circle cx="17" cy="8" r="2.8"/><path d="M22 21c0-3.2-2-5.4-4.5-6.2"/></symbol>
+<symbol id="i-trend" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-9"/><path d="M15 6h6v6"/></symbol>
+<symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5M3 18l9 5 9-5"/></symbol>
+<symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+<symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1-1.6 1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.6-1 1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.9.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.9V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></symbol>
+<symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.1 0l2-2a5 5 0 00-7.1-7.1l-1 1"/><path d="M14 11a5 5 0 00-7.1 0l-2 2a5 5 0 007.1 7.1l1-1"/></symbol>
+<symbol id="i-smartphone" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></symbol>
+<symbol id="i-monitor" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></symbol>
+<symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol>
+<symbol id="i-msg" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H8l-5 4V6a2 2 0 012-2h14a2 2 0 012 2z"/></symbol>
+</defs>
+</svg>
+<div id="app">
+<div id="stage-wrap"><div class="stage"><main id="slides">
+
+<!-- SLIDE 1 — COVER -->
+<section class="slide" data-index="1" data-section="SEARCH">
+  <div class="slide-meta"><span class="section-tag">SEARCH</span><span class="meta-right">SALES SEO PLAYBOOK</span></div>
+  <div class="cover-hero">
+    <p class="eyebrow">Chương trình đào tạo nội bộ · 2026</p>
+    <h1 class="cover-title">SEO 2026<span class="lg">Sales SEO Playbook</span></h1>
+    <p class="cover-sub">Kiến thức — Xu hướng — Công cụ — Dữ liệu — Tư duy tư vấn SEO cho đội ngũ Sales &amp; Marketing.</p>
+    <div class="final-words" style="margin-top:28px">
+      <span class="pill blue"><svg class="icon" style="width:14px;height:14px"><use href="#i-search"/></svg> Search</span>
+      <span class="pill"><svg class="icon" style="width:14px;height:14px"><use href="#i-ai"/></svg> AI Search</span>
+      <span class="pill"><svg class="icon" style="width:14px;height:14px"><use href="#i-globe"/></svg> Website</span>
+      <span class="pill"><svg class="icon" style="width:14px;height:14px"><use href="#i-file"/></svg> Content</span>
+      <span class="pill"><svg class="icon" style="width:14px;height:14px"><use href="#i-brand"/></svg> Brand</span>
+      <span class="pill cyan"><svg class="icon" style="width:14px;height:14px"><use href="#i-data"/></svg> Data</span>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 2 — SEO ĐANG THAY ĐỔI -->
+<section class="slide" data-index="2" data-section="SEARCH">
+  <div class="slide-meta"><span class="section-tag">SEARCH</span><span class="meta-right">01 · Bối cảnh</span></div>
+  <div class="slide-body">
+    <h2 class="headline-md">SEO không biến mất.<br>Cách người dùng tìm kiếm đang thay đổi.</h2>
+    <div class="grid12" style="margin-top:18px;grid-template-columns:1fr 1fr;">
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <span class="pill" style="align-self:flex-start">Cách tìm kiếm cũ</span>
+        <div class="flow-chain vertical">
+          <div class="flow-step"><div class="title">Từ khóa</div></div>
+          <div class="flow-arrow"><svg class="icon"><use href="#i-arrow"/></svg></div>
+          <div class="flow-step"><div class="title">Google</div></div>
+          <div class="flow-arrow"><svg class="icon"><use href="#i-arrow"/></svg></div>
+          <div class="flow-step"><div class="title">10 kết quả xanh</div></div>
+          <div class="flow-arrow"><svg class="icon"><use href="#i-arrow"/></svg></div>
+          <div class="flow-step"><div class="title">Nhấp chuột</div></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <span class="pill blue" style="align-self:flex-start">Cách tìm kiếm mới</span>
+        <div class="flow-chain vertical">
+          <div class="flow-step" style="background:var(--primary-soft);border-color:transparent;"><div class="title">Câu hỏi</div></div>
+          <div class="flow-arrow"><svg class="icon"><use href="#i-arrow"/></svg></div>
+          <div class="flow-step" style="background:var(--primary-soft);border-color:transparent;"><div class="title">Search + AI</div></div>
+          <div class="flow-arrow"><svg class="icon"><use href="#i-arrow"/></svg></div>
+          <div class="flow-step" style="background:var(--primary-soft);border-color:transparent;"><div class="title">Nhiều nguồn</div></div>
+          <div class="flow-arrow"><svg class="icon"><use href="#i-arrow"/></svg></div>
+          <div class="flow-step" style="background:var(--primary-soft);border-color:transparent;"><div class="title">Câu trả lời → Thương hiệu / Website</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 3 — ECOSYSTEM -->
+<section class="slide" data-index="3" data-section="SEARCH">
+  <div class="slide-meta"><span class="section-tag">SEARCH</span><span class="meta-right">02 · Hệ sinh thái</span></div>
+  <div class="slide-body">
+    <h2 class="headline-md">SEO 2026 Ecosystem</h2>
+    <p class="sub">Search Visibility là trung tâm — được tạo nên từ nhiều lớp phối hợp.</p>
+    <div class="radial" id="radial-3">
+      <svg class="radial-svg" id="radial-svg-3"></svg>
+      <div class="radial-center">SEARCH<br>VISIBILITY</div>
+      <div class="radial-node" data-pos="1"><svg><use href="#i-settings"/></svg>Technical SEO</div>
+      <div class="radial-node" data-pos="2"><svg><use href="#i-file"/></svg>Content</div>
+      <div class="radial-node" data-pos="3"><svg><use href="#i-brand"/></svg>Entity</div>
+      <div class="radial-node" data-pos="4"><svg><use href="#i-star"/></svg>Brand</div>
+      <div class="radial-node" data-pos="5"><svg><use href="#i-map"/></svg>Local SEO</div>
+      <div class="radial-node" data-pos="6"><svg><use href="#i-link"/></svg>Authority</div>
+      <div class="radial-node" data-pos="7"><svg><use href="#i-ai"/></svg>AI Search</div>
+      <div class="radial-node" data-pos="8"><svg><use href="#i-users"/></svg>UX &amp; Conversion</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4 — AI SEARCH -->
+<section class="slide" data-index="4" data-section="SEARCH">
+  <div class="slide-meta"><span class="section-tag">SEARCH</span><span class="meta-right">03 · AI Search</span></div>
+  <div class="slide-body">
+    <h2 class="headline-md">Search đang chuyển từ Ranking sang Visibility.</h2>
+    <div class="grid12" style="grid-template-columns:1fr 1fr;margin-top:10px;">
+      <div>
+        <span class="pill">SEO truyền thống</span>
+        <div class="flow-chain vertical" style="margin-top:12px;">
+          <div class="flow-step"><div class="title">Ranking</div></div>
+          <div class="flow-arrow"><svg class="icon"><use href="#i-arrow"/></svg></div>
+          <div class="flow-step"><div class="title">Click</div></div>
+        </div>
+      </div>
+      <div>
+        <span class="pill blue">AI Search</span>
+        <div class="flow-chain vertical" style="margin-top:12px;">
+          <div class="flow-step" style="background:var(--primary-soft);border-color:transparent;"><div class="title">Mention</div></div>
+          <div class="flow-arrow"><svg class="icon"><use href="#i-arrow"/></svg></div>
+          <div class="flow-step" style="background:var(--primary-soft);border-color:transparent;"><div class="title">Citation</div></div>
+          <div class="flow-arrow"><svg class="icon"><use href="#i-arrow"/></svg></div>
+          <div class="flow-step" style="background:var(--primary-soft);border-color:transparent;"><div class="title">Visibility</div></div>
+          <div class="flow-arrow"><svg class="icon"><use href="#i-arrow"/></svg></div>
+          <div class="flow-step" style="background:var(--primary-soft);border-color:transparent;"><div class="title">Click</div></div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:20px;">
+      <div class="tool-cat-title">Nền tảng AI search đang định hình hành vi tìm kiếm</div>
+      <div class="tool-row">
+        <span class="tool-chip">AI Overviews</span>
+        <span class="tool-chip">AI Mode</span>
+        <span class="tool-chip">ChatGPT Search</span>
+        <span class="tool-chip">Gemini</span>
+        <span class="tool-chip">Perplexity</span>
+      </div>
+    </div>
+    <p class="tiny" style="margin-top:14px;max-width:640px;">Lưu ý: AI Search bổ sung thêm một lớp hiển thị mới bên cạnh kết quả tìm kiếm truyền thống của Google — đây không phải tuyên bố rằng AI ranking thay thế hoàn toàn ranking hiện tại.</p>
+  </div>
+</section>
+
+<!-- SLIDE 5 — FUNNEL -->
+<section class="slide" data-index="5" data-section="SEO FOUNDATION">
+  <div class="slide-meta"><span class="section-tag">SEO FOUNDATION</span><span class="meta-right">04 · SEO Funnel</span></div>
+  <div class="slide-body">
+    <h2 class="headline-md">SEO Funnel — từ hiển thị đến doanh thu</h2>
+    <div class="funnel-wrap" style="margin-top:14px;">
+      <div class="funnel" style="width:230px;">
+        <div class="funnel-seg" style="width:100%;background:var(--primary-deep);">DISCOVERY</div>
+        <div class="funnel-seg" style="width:88%;background:#1E40AF;">VISIBILITY</div>
+        <div class="funnel-seg" style="width:76%;background:var(--electric);">TRAFFIC</div>
+        <div class="funnel-seg" style="width:64%;background:#3B82F6;">LEAD</div>
+        <div class="funnel-seg" style="width:52%;background:var(--accent);">CONVERSION</div>
+        <div class="funnel-seg" style="width:40%;background:#0E7490;">REVENUE</div>
+      </div>
+      <div class="funnel-list">
+        <div class="funnel-row"><span class="k">Visibility</span><span class="v">Impressions · Vị trí trung bình · AI Mentions</span></div>
+        <div class="funnel-row"><span class="k">Traffic</span><span class="v">Clicks · Organic Sessions</span></div>
+        <div class="funnel-row"><span class="k">Lead</span><span class="v">Gọi điện · Form · Zalo/Chat</span></div>
+        <div class="funnel-row"><span class="k">Conversion</span><span class="v">Tỷ lệ chuyển đổi</span></div>
+        <div class="funnel-row" style="border-bottom:none;"><span class="k">Revenue</span><span class="v">Doanh số · ROAS / ROI</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6 — FUNDAMENTALS -->
+<section class="slide" data-index="6" data-section="SEO FOUNDATION">
+  <div class="slide-meta"><span class="section-tag">SEO FOUNDATION</span><span class="meta-right">05 · Nguyên lý vận hành</span></div>
+  <div class="slide-body">
+    <h2 class="headline-md">SEO Fundamentals</h2>
+    <p class="sub">Cách công cụ tìm kiếm xử lý một website, từ thu thập dữ liệu đến hiển thị.</p>
+    <div class="flow-chain" style="margin-top:18px;">
+      <div class="flow-step"><div class="num">01</div><div class="title">Crawl</div><div class="desc">Bot thu thập dữ liệu trang</div></div>
+      <div class="flow-arrow"><svg class="icon"><use href="#i-arrow"/></svg></div>
+      <div class="flow-step"><div class="num">02</div><div class="title">Understand</div><div class="desc">Phân tích nội dung &amp; ngữ nghĩa</div></div>
+      <div class="flow-arrow"><svg class="icon"><use href="#i-arrow"/></svg></div>
+      <div class="flow-step"><div class="num">03</div><div class="title">Index</div><div class="desc">Lưu vào chỉ mục tìm kiếm</div></div>
+      <div class="flow-arrow"><svg class="icon"><use href="#i-arrow"/></svg></div>
+      <div class="flow-step"><div class="num">04</div><div class="title">Rank</div><div class="desc">Xếp hạng theo mức độ liên quan</div></div>
+      <div class="flow-arrow"><svg class="icon"><use href="#i-arrow"/></svg></div>
+      <div class="flow-step"><div class="num">05</div><div class="title">Show</div><div class="desc">Hiển thị cho người dùng</div></div>
+    </div>
+    <p class="source">Source: Google Search Central Documentation, 2026</p>
+  </div>
+</section>
+
+<!-- SLIDE 7 — KEYWORD & INTENT -->
+<section class="slide" data-index="7" data-section="SEO FOUNDATION">
+  <div class="slide-meta"><span class="section-tag">SEO FOUNDATION</span><span class="meta-right">06 · Keyword &amp; Intent</span></div>
+  <div class="slide-body">
+    <h2 class="headline-md">Keyword &amp; Search Intent</h2>
+    <div class="grid12" style="grid-template-columns:1.1fr 1fr;">
+      <div class="quad-grid">
+        <div class="quad-card"><div class="qhead"><svg><use href="#i-file"/></svg><span class="qtitle">Informational</span></div><p class="desc" style="font-size:12px;color:var(--ink-soft);margin:0;">Tìm hiểu thông tin</p></div>
+        <div class="quad-card"><div class="qhead"><svg><use href="#i-globe"/></svg><span class="qtitle">Navigational</span></div><p class="desc" style="font-size:12px;color:var(--ink-soft);margin:0;">Tìm một trang cụ thể</p></div>
+        <div class="quad-card"><div class="qhead"><svg><use href="#i-target"/></svg><span class="qtitle">Commercial</span></div><p class="desc" style="font-size:12px;color:var(--ink-soft);margin:0;">So sánh trước khi mua</p></div>
+        <div class="quad-card"><div class="qhead"><svg><use href="#i-zap"/></svg><span class="qtitle">Transactional</span></div><p class="desc" style="font-size:12px;color:var(--ink-soft);margin:0;">Sẵn sàng hành động / mua</p></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="tool-row">
+          <span class="pill">Short-tail</span><span class="pill">Long-tail</span><span class="pill">Branded</span><span class="pill">Non-branded</span>
+        </div>
+        <div style="flex:1;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg-alt);padding:16px;display:flex;flex-direction:column;">
+          <div class="tiny" style="font-weight:700;color:var(--ink-soft);margin-bottom:10px;">SEARCH VOLUME vs PURCHASE INTENT</div>
+          <div style="flex:1;position:relative;border-left:2px solid var(--line);border-bottom:2px solid var(--line);margin:4px 10px 20px 4px;">
+            <div style="position:absolute;left:10%;bottom:14%;" class="pill blue" >Long-tail giá trị cao</div>
+            <div style="position:absolute;right:6%;top:10%;" class="pill">Từ khóa lớn, ít chuyển đổi</div>
+          </div>
+          <p class="tiny" style="margin:0;">High Volume ≠ Always High Value</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 8 — TECHNICAL SEO -->
+<section class="slide" data-index="8" data-section="SEO FOUNDATION">
+  <div class="slide-meta"><span class="section-tag">SEO FOUNDATION</span><span class="meta-right">07 · Technical SEO</span></div>
+  <div class="slide-body">
+    <h2 class="headline-md">Technical SEO Dashboard</h2>
+    <div class="grid12" style="grid-template-columns:1fr 1.15fr;">
+      <div class="browser" style="align-self:center;">
+        <div class="browser-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="url">https://yourwebsite.vn</div></div>
+        <div style="padding:20px;display:flex;flex-direction:column;gap:8px;">
+          <div style="height:12px;width:60%;background:var(--bg-alt2);border-radius:4px;"></div>
+          <div style="height:8px;width:90%;background:var(--line-soft);border-radius:4px;"></div>
+          <div style="height:8px;width:80%;background:var(--line-soft);border-radius:4px;"></div>
+          <div style="height:70px;width:100%;background:var(--bg-alt2);border-radius:8px;margin:6px 0;"></div>
+          <div style="height:8px;width:70%;background:var(--line-soft);border-radius:4px;"></div>
+          <div style="height:8px;width:50%;background:var(--line-soft);border-radius:4px;"></div>
+        </div>
+      </div>
+      <div class="tool-row" style="align-content:flex-start;">
+        <span class="tool-chip"><svg class="icon" style="width:15px;height:15px;color:var(--electric)"><use href="#i-search"/></svg>Crawlability</span>
+        <span class="tool-chip"><svg class="icon" style="width:15px;height:15px;color:var(--electric)"><use href="#i-layers"/></svg>Indexability</span>
+        <span class="tool-chip"><svg class="icon" style="width:15px;height:15px;color:var(--electric)"><use href="#i-zap"/></svg>Performance</span>
+        <span class="tool-chip"><svg class="icon" style="width:15px;height:15px;color:var(--electric)"><use href="#i-smartphone"/></svg>Mobile</span>
+        <span class="tool-chip"><svg class="icon" style="width:15px;height:15px;color:var(--electric)"><use href="#i-monitor"/></svg>Architecture</span>
+        <span class="tool-chip"><svg class="icon" style="width:15px;height:15px;color:var(--electric)"><use href="#i-link"/></svg>Canonical</span>
+        <span class="tool-chip"><svg class="icon" style="width:15px;height:15px;color:var(--electric)"><use href="#i-file"/></svg>Sitemap</span>
+        <span class="tool-chip"><svg class="icon" style="width:15px;height:15px;color:var(--electric)"><use href="#i-shield"/></svg>Robots.txt</span>
+        <span class="tool-chip"><svg class="icon" style="width:15px;height:15px;color:var(--electric)"><use href="#i-data"/></svg>Schema</span>
+        <span class="tool-chip"><svg class="icon" style="width:15px;height:15px;color:var(--electric)"><use href="#i-link"/></svg>Internal Links</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9 — ON-PAGE SEO -->
+<section class="slide" data-index="9" data-section="SEO FOUNDATION">
+  <div class="slide-meta"><span class="section-tag">SEO FOUNDATION</span><span class="meta-right">08 · On-page SEO</span></div>
+  <div class="slide-body">
+    <h2 class="headline-md">On-page SEO — giải phẫu một kết quả tìm kiếm</h2>
+    <div class="browser" style="margin-top:10px;">
+      <div class="browser-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="url">google.com/search?q=dich+vu+seo</div></div>
+      <div class="serp">
+        <div class="surl"><span class="fav"></span>yourwebsite.vn <span class="tag-highlight">URL</span></div>
+        <div class="stitle">Dịch vụ SEO Website chuyên nghiệp <span class="tag-highlight">Title</span></div>
+        <div class="sdesc">Tối ưu SEO tổng thể, tăng traffic tự nhiên và chuyển đổi khách hàng bền vững. <span class="tag-highlight">Meta Description</span></div>
+        <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;">
+          <span class="pill">H1</span><span class="pill">Content</span><span class="pill">Internal Link</span><span class="pill">Image ALT</span><span class="pill">Schema</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 10 — CONTENT SEO -->
+<section class="slide" data-index="10" data-section="SEO FOUNDATION">
+  <div class="slide-meta"><span class="section-tag">SEO FOUNDATION</span><span class="meta-right">09 · Content SEO</span></div>
+  <div class="slide-body">
+    <h2 class="headline-md">Không phải viết nhiều. Phải xây dựng đúng chủ đề.</h2>
+    <div class="radial" id="radial-10">
+      <svg class="radial-svg" id="radial-svg-10"></svg>
+      <div class="radial-center" style="background:linear-gradient(155deg,var(--primary-deep),var(--electric));">PILLAR<br>PAGE</div>
+      <div class="radial-node" data-pos="1"><svg><use href="#i-file"/></svg>Supporting Content</div>
+      <div class="radial-node" data-pos="2"><svg><use href="#i-msg"/></svg>FAQ</div>
+      <div class="radial-node" data-pos="3"><svg><use href="#i-globe"/></svg>Service Page</div>
+      <div class="radial-node" data-pos="4"><svg><use href="#i-star"/></svg>Case Study</div>
+      <div class="radial-node" data-pos="5"><svg><use href="#i-layers"/></svg>Guide</div>
+      <div class="radial-node" data-pos="6"><svg><use href="#i-target"/></svg>Comparison</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 11 — E-E-A-T -->
+<section class="slide" data-index="11" data-section="SEO FOUNDATION">
+  <div class="slide-meta"><span class="section-tag">SEO FOUNDATION</span><span class="meta-right">10 · E-E-A-T</span></div>
+  <div class="slide-body">
+    <h2 class="headline-md">E-E-A-T</h2>
+    <div class="quad-grid">
+      <div class="quad-card"><div class="qhead"><svg><use href="#i-star"/></svg><span class="qtitle">Experience</span></div>
+        <ul><li>Case study thực tế</li><li>Dự án đã triển khai</li><li>Hình ảnh thật</li></ul></div>
+      <div class="quad-card"><div class="qhead"><svg><use href="#i-target"/></svg><span class="qtitle">Expertise</span></div>
+        <ul><li>Tác giả chuyên môn</li><li>Kiến thức chuyên ngành</li></ul></div>
+      <div class="quad-card"><div class="qhead"><svg><use href="#i-link"/></svg><span class="qtitle">Authoritativeness</span></div>
+        <ul><li>Được nhắc tới, liên kết</li><li>Uy tín thương hiệu</li></ul></div>
+      <div class="quad-card"><div class="qhead"><svg><use href="#i-shield"/></svg><span class="qtitle">Trust</span></div>
+        <ul><li>Thông tin liên hệ rõ ràng</li><li>Đánh giá &amp; chính sách minh bạch</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 12 — ENTITY SEO -->
+<section class="slide" data-index="12" data-section="SEO FOUNDATION">
+  <div class="slide-meta"><span class="section-tag">SEO FOUNDATION</span><span class="meta-right">11 · Entity SEO</span></div>
+  <div class="slide-body">
+    <h2 class="headline-md">Google cần hiểu doanh nghiệp là ai — không chỉ website có từ khóa gì.</h2>
+    <div class="radial" id="radial-12">
+      <svg class="radial-svg" id="radial-svg-12"></svg>
+      <div class="radial-center" style="background:linear-gradient(155deg,var(--primary-deep),var(--electric));">BRAND</div>
+      <div class="radial-node" data-pos="1"><svg><use href="#i-brand"/></svg>Organization</div>
+      <div class="radial-node" data-pos="2"><svg><use href="#i-globe"/></svg>Website</div>
+      <div class="radial-node" data-pos="3"><svg><use href="#i-users"/></svg>Person</div>
+      <div class="radial-node" data-pos="4"><svg><use href="#i-target"/></svg>Product</div>
+      <div class="radial-node" data-pos="5"><svg><use href="#i-settings"/></svg>Service</div>
+      <div class="radial-node" data-pos="6"><svg><use href="#i-map"/></svg>Location</div>
+      <div class="radial-node" data-pos="7"><svg><use href="#i-msg"/></svg>Social</div>
+      <div class="radial-node" data-pos="8"><svg><use href="#i-star"/></svg>Review / GBP</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 13 — LOCAL SEO -->
+<section class="slide" data-index="13" data-section="SEO FOUNDATION">
+  <div class="slide-meta"><span class="section-tag">SEO FOUNDATION</span><span class="meta-right">12 · Local SEO</span></div>
+  <div class="slide-body">
+    <h2 class="headline-md">Local SEO — biến hiển thị thành khách hàng gần bạn</h2>
+    <div class="grid12" style="grid-template-columns:1fr 1fr;">
+      <div class="browser">
+        <div class="browser-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="url">google.com/maps</div></div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;gap:10px;align-items:center;">
+            <div style="width:34px;height:34px;border-radius:8px;background:var(--primary-soft);display:flex;align-items:center;justify-content:center;"><svg class="icon" style="color:var(--electric)"><use href="#i-map"/></svg></div>
+            <div><div style="font-weight:700;font-size:13px;">Doanh nghiệp của bạn</div><div class="tiny">★★★★★ · Quận 1, TP.HCM</div></div>
+          </div>
+          <div style="height:100px;border-radius:10px;background:var(--bg-alt2);"></div>
+          <div class="tool-row"><span class="pill">Relevance</span><span class="pill">Distance</span><span class="pill">Prominence</span></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:center;gap:10px;">
+        <div class="tool-row">
+          <span class="tool-chip">Google Business Profile</span>
+          <span class="tool-chip">Reviews</span>
+          <span class="tool-chip">NAP nhất quán</span>
+          <span class="tool-chip">Local Landing Pages</span>
+          <span class="tool-chip">Photos</span>
+          <span class="tool-chip">Services</span>
+        </div>
+        <p class="sub" style="margin-top:6px;">Local SEO có thể chuyển hóa search visibility thành lead tại địa phương.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 14 — CORE WEB VITALS -->
+<section class="slide" data-index="14" data-section="SEO FOUNDATION">
+  <div class="slide-meta"><span class="section-tag">SEO FOUNDATION</span><span class="meta-right">13 · Core Web Vitals</span></div>
+  <div class="slide-body">
+    <h2 class="headline-md">Core Web Vitals</h2>
+    <p class="sub">Bộ chỉ số trải nghiệm trang chính thức của Google.</p>
+    <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr);flex:1;align-content:center;">
+      <div class="kpi-card" style="padding:22px;">
+        <div class="label">LCP · Largest Contentful Paint</div>
+        <div class="value">≤ 2.5<span>giây</span></div>
+        <div style="height:6px;background:var(--line-soft);border-radius:4px;overflow:hidden;margin-top:6px;"><div style="height:100%;width:80%;background:var(--electric);border-radius:4px;"></div></div>
+        <div class="tiny">Tốc độ hiển thị nội dung chính</div>
+      </div>
+      <div class="kpi-card" style="padding:22px;">
+        <div class="label">INP · Interaction to Next Paint</div>
+        <div class="value">&lt; 200<span>ms</span></div>
+        <div style="height:6px;background:var(--line-soft);border-radius:4px;overflow:hidden;margin-top:6px;"><div style="height:100%;width:70%;background:var(--electric);border-radius:4px;"></div></div>
+        <div class="tiny">Độ phản hồi tương tác</div>
+      </div>
+      <div class="kpi-card" style="padding:22px;">
+        <div class="label">CLS · Cumulative Layout Shift</div>
+        <div class="value">&lt; 0.1<span>điểm</span></div>
+        <div style="height:6px;background:var(--line-soft);border-radius:4px;overflow:hidden;margin-top:6px;"><div style="height:100%;width:60%;background:var(--electric);border-radius:4px;"></div></div>
+        <div class="tiny">Độ ổn định bố cục</div>
+      </div>
+    </div>
+    <p class="source">Source: Google Search Central — Core Web Vitals, 2026</p>
+  </div>
+</section>
+
+<!-- SLIDE 15 — TOOL STACK -->
+<section class="slide" data-index="15" data-section="SEO TOOLKIT">
+  <div class="slide-meta"><span class="section-tag">SEO TOOLKIT</span><span class="meta-right">14 · SEO Tool Stack</span></div>
+  <div class="slide-body">
+    <h2 class="headline-md">SEO Tool Stack</h2>
+    <div class="grid12" style="grid-template-columns:1fr 1fr;">
+      <div>
+        <div class="tool-cat"><div class="tool-cat-title">FREE</div><div class="tool-row">
+          <span class="tool-chip">Google Search Console</span><span class="tool-chip">GA4</span><span class="tool-chip">Google Trends</span><span class="tool-chip">Keyword Planner</span><span class="tool-chip">PageSpeed Insights</span><span class="tool-chip">Rich Results Test</span>
+        </div></div>
+        <div class="tool-cat"><div class="tool-cat-title">PRO</div><div class="tool-row">
+          <span class="tool-chip">Ahrefs</span><span class="tool-chip">Semrush</span><span class="tool-chip">Screaming Frog</span><span class="tool-chip">Sitebulb</span><span class="tool-chip">SE Ranking</span>
+        </div></div>
+      </div>
+      <div>
+        <div class="tool-cat"><div class="tool-cat-title">CONTENT</div><div class="tool-row">
+          <span class="tool-chip">Surfer</span><span class="tool-chip">Frase</span><span class="tool-chip">NeuronWriter</span>
+        </div></div>
+        <div class="tool-cat"><div class="tool-cat-title">AI SEARCH</div><div class="tool-row">
+          <span class="tool-chip">Công cụ theo dõi AI Visibility / Citation</span>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 16 — SEO AUDIT 7 LAYERS -->
+<section class="slide" data-index="16" data-section="SEO TOOLKIT">
+  <div class="slide-meta"><span class="section-tag">SEO TOOLKIT</span><span class="meta-right">15 · SEO Audit</span></div>
+  <div class="slide-body">
+    <h2 class="headline-md">SEO Audit — 7 tầng</h2>
+    <div class="stair" style="margin-top:10px;">
+      <div class="stair-step" style="height:46%;"><div class="snum">01</div><div class="stitle">Business</div></div>
+      <div class="stair-step" style="height:56%;"><div class="snum">02</div><div class="stitle">Keyword</div></div>
+      <div class="stair-step" style="height:66%;"><div class="snum">03</div><div class="stitle">Competitor</div></div>
+      <div class="stair-step" style="height:76%;"><div class="snum">04</div><div class="stitle">Technical</div></div>
+      <div class="stair-step" style="height:86%;"><div class="snum">05</div><div class="stitle">Content</div></div>
+      <div class="stair-step" style="height:96%;"><div class="snum">06</div><div class="stitle">Authority</div></div>
+      <div class="stair-step" style="height:100%;"><div class="snum">07</div><div class="stitle">Conversion</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 17 — SALES SEO -->
+<section class="slide" data-index="17" data-section="SALES APPLICATION">
+  <div class="slide-meta"><span class="section-tag">SALES APPLICATION</span><span class="meta-right">16 · Sales SEO</span></div>
+  <div class="slide-body">
+    <h2 class="headline-md">Khách không mua SEO. Khách mua kết quả kinh doanh.</h2>
+    <div class="flow-chain" style="margin-top:16px;">
+      <div class="flow-step"><div class="title">SEO</div></div>
+      <div class="flow-arrow"><svg class="icon"><use href="#i-arrow"/></svg></div>
+      <div class="flow-step"><div class="title">Traffic</div></div>
+      <div class="flow-arrow"><svg class="icon"><use href="#i-arrow"/></svg></div>
+      <div class="flow-step"><div class="title">Leads</div></div>
+      <div class="flow-arrow"><svg class="icon"><use href="#i-arrow"/></svg></div>
+      <div class="flow-step"><div class="title">Customers</div></div>
+      <div class="flow-arrow"><svg class="icon"><use href="#i-arrow"/></svg></div>
+      <div class="flow-step" style="background:var(--primary-soft);border-color:transparent;"><div class="title">Revenue</div></div>
+    </div>
+    <div style="margin-top:22px;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg-alt);padding:18px 22px;display:flex;align-items:center;gap:18px;">
+      <svg class="icon" style="width:28px;height:28px;color:var(--electric)"><use href="#i-target"/></svg>
+      <p style="margin:0;font-size:14px;color:var(--ink);"><b>300 lượt tìm kiếm có ý định cao</b> có thể mang lại giá trị kinh doanh lớn hơn <b>10.000 lượt tìm kiếm ít ý định</b>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 18 — BEFORE / AFTER -->
+<section class="slide" data-index="18" data-section="SALES APPLICATION">
+  <div class="slide-meta"><span class="section-tag">SALES APPLICATION</span><span class="meta-right">17 · Cách nói với khách hàng</span></div>
+  <div class="slide-body" style="overflow:auto;">
+    <h2 class="headline-md">Cách nói với khách hàng</h2>
+    <div class="ba-row">
+      <div class="ba-col ba-before"><span class="ba-label">TRƯỚC</span>Website thiếu Entity.</div>
+      <div class="ba-arrow"><svg class="icon"><use href="#i-arrow"/></svg></div>
+      <div class="ba-col ba-after"><span class="ba-label">SAU</span>Google chưa hiểu đầy đủ doanh nghiệp của anh đang chuyên sâu về lĩnh vực nào.</div>
+    </div>
+    <div class="ba-row">
+      <div class="ba-col ba-before"><span class="ba-label">TRƯỚC</span>Website chưa tối ưu Search Intent.</div>
+      <div class="ba-arrow"><svg class="icon"><use href="#i-arrow"/></svg></div>
+      <div class="ba-col ba-after"><span class="ba-label">SAU</span>Một số nội dung chưa đúng nhu cầu của người đang có khả năng mua.</div>
+    </div>
+    <div class="ba-row">
+      <div class="ba-col ba-before"><span class="ba-label">TRƯỚC</span>Website chưa có Topical Authority.</div>
+      <div class="ba-arrow"><svg class="icon"><use href="#i-arrow"/></svg></div>
+      <div class="ba-col ba-after"><span class="ba-label">SAU</span>Website chưa xây dựng đủ hệ thống nội dung để thể hiện chuyên môn.</div>
+    </div>
+    <div class="ba-row" style="border-bottom:none;">
+      <div class="ba-col ba-before"><span class="ba-label">TRƯỚC</span>Cần GEO.</div>
+      <div class="ba-arrow"><svg class="icon"><use href="#i-arrow"/></svg></div>
+      <div class="ba-col ba-after"><span class="ba-label">SAU</span>Cần tăng khả năng thương hiệu được các hệ thống tìm kiếm và AI hiểu, nhắc tới và dẫn nguồn.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 19 — KPI DASHBOARD -->
+<section class="slide" data-index="19" data-section="SALES APPLICATION">
+  <div class="slide-meta"><span class="section-tag">SALES APPLICATION</span><span class="meta-right">18 · KPI Dashboard</span></div>
+  <div class="slide-body">
+    <h2 class="headline-md">SEO KPI Dashboard <span class="tiny" style="font-weight:600;">(ví dụ minh họa)</span></h2>
+    <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);">
+      <div class="kpi-card"><div class="label">Organic Clicks</div><div class="value">—</div></div>
+      <div class="kpi-card"><div class="label">Impressions</div><div class="value">—</div></div>
+      <div class="kpi-card"><div class="label">CTR</div><div class="value">—</div></div>
+      <div class="kpi-card"><div class="label">Avg. Position</div><div class="value">—</div></div>
+    </div>
+    <div class="dash-grid" style="margin-top:14px;flex:1;">
+      <div class="chart-box" style="grid-column:span 2;"><div class="ctitle">Xu hướng Traffic (minh họa)</div><div class="chart-canvas-wrap"><canvas id="chart-traffic"></canvas></div></div>
+      <div class="chart-box"><div class="ctitle">Keyword Visibility</div><div class="chart-canvas-wrap"><canvas id="chart-visibility"></canvas></div></div>
+      <div class="chart-box"><div class="ctitle">Lead Trend</div><div class="chart-canvas-wrap"><canvas id="chart-leads"></canvas></div></div>
+    </div>
+    <p class="tiny" style="margin-top:8px;">Dữ liệu minh họa cho mục đích trình bày dashboard — số liệu thực tế lấy từ Google Search Console &amp; GA4 của từng dự án.</p>
+  </div>
+</section>
+
+<!-- SLIDE 20 — ROADMAP -->
+<section class="slide" data-index="20" data-section="SALES APPLICATION">
+  <div class="slide-meta"><span class="section-tag">SALES APPLICATION</span><span class="meta-right">19 · Sales SEO Roadmap</span></div>
+  <div class="slide-body">
+    <h2 class="headline-md">Sales SEO Roadmap</h2>
+    <div class="roadmap" style="margin-top:20px;">
+      <div class="rm-line"></div>
+      <div class="rm-item"><div class="rm-dot">01</div><div class="rmtitle">Fundamentals</div></div>
+      <div class="rm-item"><div class="rm-dot">02</div><div class="rmtitle">Keyword</div></div>
+      <div class="rm-item"><div class="rm-dot">03</div><div class="rmtitle">Technical</div></div>
+      <div class="rm-item"><div class="rm-dot">04</div><div class="rmtitle">Content</div></div>
+      <div class="rm-item"><div class="rm-dot">05</div><div class="rmtitle">Entity + Local</div></div>
+      <div class="rm-item"><div class="rm-dot">06</div><div class="rmtitle">AI Search</div></div>
+      <div class="rm-item"><div class="rm-dot">07</div><div class="rmtitle">Conversion</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 21 — DISCOVERY QUESTIONS -->
+<section class="slide" data-index="21" data-section="SALES APPLICATION">
+  <div class="slide-meta"><span class="section-tag">SALES APPLICATION</span><span class="meta-right">20 · Client Discovery</span></div>
+  <div class="slide-body">
+    <h2 class="headline-md">Trước khi báo giá SEO, cần biết</h2>
+    <div class="checklist" style="margin-top:10px;">
+      <div class="check-item"><div class="check-num">1</div><p>Doanh nghiệp bán gì?</p></div>
+      <div class="check-item"><div class="check-num">2</div><p>Khách hàng mục tiêu là ai?</p></div>
+      <div class="check-item"><div class="check-num">3</div><p>Khu vực kinh doanh?</p></div>
+      <div class="check-item"><div class="check-num">4</div><p>Sản phẩm / dịch vụ lợi nhuận cao?</p></div>
+      <div class="check-item"><div class="check-num">5</div><p>Đối thủ cạnh tranh chính?</p></div>
+      <div class="check-item"><div class="check-num">6</div><p>Tình trạng website hiện tại?</p></div>
+      <div class="check-item"><div class="check-num">7</div><p>Traffic hiện tại ra sao?</p></div>
+      <div class="check-item"><div class="check-num">8</div><p>Từ khóa hiện đang có?</p></div>
+      <div class="check-item"><div class="check-num">9</div><p>Lượng lead hiện tại?</p></div>
+      <div class="check-item"><div class="check-num">10</div><p>Mục tiêu kinh doanh?</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 22 — FINAL -->
+<section class="slide" data-index="22" data-section="SALES APPLICATION">
+  <div class="slide-meta"><span class="section-tag">SALES APPLICATION</span><span class="meta-right">21 · Kết luận</span></div>
+  <div class="cover-hero">
+    <h1 class="cover-title" style="font-size:clamp(34px,5.2vw,58px);">SEO không chỉ là<span class="lg">TOP GOOGLE.</span></h1>
+    <div class="final-words">
+      <span class="final-word">BE FOUND</span>
+      <span class="final-word">BE UNDERSTOOD</span>
+      <span class="final-word">BE TRUSTED</span>
+      <span class="final-word">BE CHOSEN</span>
+    </div>
+    <p class="tiny" style="margin-top:30px;">SEO 2026 · Sales SEO Playbook</p>
+  </div>
+</section>
+
+</main></div></div>
+
+<div id="controls-row">
+  <button class="navbtn" id="btn-prev" aria-label="Slide trước"><svg><use href="#i-chevleft"/></svg></button>
+  <div id="progress-track"><div id="progress-fill"></div></div>
+  <span id="counter">01 / 22</span>
+  <button class="navbtn" id="btn-next" aria-label="Slide sau"><svg><use href="#i-chevright"/></svg></button>
+</div>
+</div>
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  let current = 0;
+  const counter = document.getElementById('counter');
+  const fill = document.getElementById('progress-fill');
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
+
+  function pad(n){return n<10?'0'+n:''+n;}
+
+  function render(){
+    slides.forEach((s,i)=>{
+      s.classList.toggle('active', i===current);
+    });
+    counter.textContent = pad(current+1)+' / '+pad(total);
+    fill.style.width = ((current+1)/total*100)+'%';
+    btnPrev.classList.toggle('disabled', current===0);
+    btnNext.classList.toggle('disabled', current===total-1);
+  }
+
+  function goTo(i){
+    current = Math.max(0, Math.min(total-1, i));
+    render();
+  }
+  function next(){ if(current<total-1){ current++; render(); } }
+  function prev(){ if(current>0){ current--; render(); } }
+
+  btnNext.addEventListener('click', next);
+  btnPrev.addEventListener('click', prev);
+
+  window.addEventListener('keydown', (e)=>{
+    if(['ArrowRight',' ','PageDown'].includes(e.key)){ e.preventDefault(); next(); }
+    else if(['ArrowLeft','PageUp'].includes(e.key)){ e.preventDefault(); prev(); }
+    else if(e.key==='Home'){ e.preventDefault(); goTo(0); }
+    else if(e.key==='End'){ e.preventDefault(); goTo(total-1); }
+    else if(e.key==='f' || e.key==='F'){ toggleFullscreen(); }
+  });
+
+  function toggleFullscreen(){
+    if(!document.fullscreenElement){ document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen(); }
+    else{ document.exitFullscreen&&document.exitFullscreen(); }
+  }
+
+  // touch swipe
+  let touchStartX = null;
+  const stage = document.getElementById('stage-wrap');
+  stage.addEventListener('touchstart', (e)=>{ touchStartX = e.changedTouches[0].screenX; }, {passive:true});
+  stage.addEventListener('touchend', (e)=>{
+    if(touchStartX===null) return;
+    const dx = e.changedTouches[0].screenX - touchStartX;
+    if(Math.abs(dx) > 40){ dx < 0 ? next() : prev(); }
+    touchStartX = null;
+  }, {passive:true});
+
+  // ---- radial diagrams: position nodes evenly around center, draw connector lines ----
+  function layoutRadial(containerId, svgId, radiusRatio){
+    const container = document.getElementById(containerId);
+    if(!container) return;
+    const svg = document.getElementById(svgId);
+    function place(){
+      const rect = container.getBoundingClientRect();
+      const cx = rect.width/2, cy = rect.height/2;
+      const R = Math.min(rect.width, rect.height) * (radiusRatio||0.40);
+      const nodes = Array.from(container.querySelectorAll('.radial-node'));
+      const n = nodes.length;
+      svg.setAttribute('viewBox', '0 0 '+rect.width+' '+rect.height);
+      svg.innerHTML = '';
+      nodes.forEach((node, i)=>{
+        const angle = (Math.PI*2 * i / n) - Math.PI/2;
+        const nx = cx + R*Math.cos(angle);
+        const ny = cy + R*Math.sin(angle);
+        node.style.left = nx+'px';
+        node.style.top = ny+'px';
+        node.style.transform = 'translate(-50%,-50%)';
+        node.style.transitionDelay = (i*0.06)+'s';
+        const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+        line.setAttribute('x1', cx); line.setAttribute('y1', cy);
+        line.setAttribute('x2', nx); line.setAttribute('y2', ny);
+        svg.appendChild(line);
+      });
+    }
+    place();
+    window.addEventListener('resize', place);
+    return place;
+  }
+  layoutRadial('radial-3','radial-svg-3', 0.42);
+  layoutRadial('radial-10','radial-svg-10', 0.40);
+  layoutRadial('radial-12','radial-svg-12', 0.42);
+
+  // ---- charts (illustrative sample data only, clearly labelled in UI) ----
+  function initCharts(){
+    if(typeof Chart === 'undefined') return;
+    const gridColor = '#EEF2F7';
+    Chart.defaults.font.family = "'Inter', sans-serif";
+    Chart.defaults.color = '#64748B';
+
+    new Chart(document.getElementById('chart-traffic'), {
+      type: 'line',
+      data: {
+        labels: ['T1','T2','T3','T4','T5','T6'],
+        datasets: [{
+          label: 'Organic Sessions (minh họa)',
+          data: [40,52,58,70,86,102],
+          borderColor: '#2563EB',
+          backgroundColor: 'rgba(37,99,235,0.08)',
+          tension: 0.35, fill:true, pointRadius:0, borderWidth:2.5
+        }]
+      },
+      options: {
+        responsive:true, maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{ x:{grid:{display:false}}, y:{grid:{color:gridColor},beginAtZero:true} }
+      }
+    });
+
+    new Chart(document.getElementById('chart-visibility'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Top 3','Top 10','Top 30','>30'],
+        datasets: [{ data:[18,34,30,18], backgroundColor:['#1D4ED8','#2563EB','#93C5FD','#E2E8F0'], borderWidth:0 }]
+      },
+      options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{boxWidth:8,font:{size:10}}}} }
+    });
+
+    new Chart(document.getElementById('chart-leads'), {
+      type: 'bar',
+      data: {
+        labels: ['T1','T2','T3','T4','T5','T6'],
+        datasets: [{ label:'Leads (minh họa)', data:[8,11,10,15,19,23], backgroundColor:'#0891B2', borderRadius:5 }]
+      },
+      options: {
+        responsive:true, maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{ x:{grid:{display:false}}, y:{grid:{color:gridColor},beginAtZero:true} }
+      }
+    });
+  }
+
+  window.addEventListener('load', initCharts);
+  render();
+})();
+</script>
+</body>
+</html>
